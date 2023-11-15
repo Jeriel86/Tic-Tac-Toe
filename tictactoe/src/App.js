@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 function Square({value, onSquareClick}) {
-  return <button className="square" onClick={onSquareClick}>{value}</button>;
+  return <button className="square" style={{ color: value === "X"? 'green': 'red'}} onClick={onSquareClick}>{value}</button>;
 }
 
 function Board({ xIsNext, squares, onPlay }) {
