@@ -88,3 +88,11 @@ body {
 .game-info {
   margin-left: 20px;
 }
+
+.bwd_button {
+  color: red;
+}
+
+.fwd_button {
+  color: green;
+}
