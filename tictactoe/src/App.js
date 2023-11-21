@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-function Square({value, onSquareClick}) {
+function Square({ value, onSquareClick }) {
   return <button className="square" onClick={onSquareClick}>{value}</button>;
 }
 
@@ -29,7 +29,7 @@ function Board({ xIsNext, squares, onPlay }) {
   }
 
   return (
-  <>
+    <>
       <div className="status">{status}</div>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
@@ -46,13 +46,16 @@ function Board({ xIsNext, squares, onPlay }) {
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
-  </>
+    </>
   );
 }
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const [playerNames, setPlayerNames] = useState({ player1: "", player2: "" });
+  const [gameStarted, setGameStarted] = useState(false);
+
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
@@ -65,6 +68,12 @@ export default function Game() {
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
   }
+
+  const startGame = () => {
+    if (playerNames.player1 && playerNames.player2) {
+      setGameStarted(true);
+    }
+  };
 
   const moves = history.map((squares, move) => {
     let description;
@@ -82,12 +91,40 @@ export default function Game() {
 
   return (
     <div className="game">
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
-      </div>
-      <div className="game-info">
-        <ol>{moves}</ol>
-      </div>
+     {!gameStarted ? (
+        <div className="player-names-container">
+          <h1>Tic Tac Toe</h1>
+          <div className="player-names-form">
+            <label>
+              Player 1:
+              <input
+                type="text"
+                value={playerNames.player1}
+                onChange={(e) => setPlayerNames({ ...playerNames, player1: e.target.value })}
+              />
+            </label>
+            <label>
+              Player 2:
+              <input
+                type="text"
+                value={playerNames.player2}
+                onChange={(e) => setPlayerNames({ ...playerNames, player2: e.target.value })}
+              />
+            </label>
+            <button onClick={startGame}>Start Game</button>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="game-board">
+            <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+          </div>
+          <div className="game-info">
+            <div className="status">Current Player: {xIsNext ? playerNames.player1 : playerNames.player2}</div>
+            <ol>{moves}</ol>
+          </div>
+        </>
+      )}
     </div>
   );
 }
