@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import DarkModeToggle from 'react-dark-mode-toggle';
 
-function Square({value, onSquareClick}) {
-  return <button className="square" onClick={onSquareClick}>{value}</button>;
+function Square({value, onSquareClick, darkMode}) {
+  if(darkMode){
+    return <button className="squaredark" onClick={onSquareClick}>{value}</button>;
+  }
+  else{
+    return <button className="squarelight" onClick={onSquareClick}>{value}</button>;
+  }
 }
 
-function Board({ xIsNext, squares, onPlay }) {
+function Board({ xIsNext, squares, onPlay, darkMode }) {
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return;
@@ -32,19 +38,19 @@ function Board({ xIsNext, squares, onPlay }) {
   <>
       <div className="status">{status}</div>
       <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} darkMode={darkMode} />
+        <Square value={squares[1]} onSquareClick={() => handleClick(1)} darkMode={darkMode}/>
+        <Square value={squares[2]} onSquareClick={() => handleClick(2)} darkMode={darkMode}/>
       </div>
       <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+        <Square value={squares[3]} onSquareClick={() => handleClick(3)} darkMode={darkMode}/>
+        <Square value={squares[4]} onSquareClick={() => handleClick(4)} darkMode={darkMode}/>
+        <Square value={squares[5]} onSquareClick={() => handleClick(5)} darkMode={darkMode}/>
       </div>
       <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+        <Square value={squares[6]} onSquareClick={() => handleClick(6)} darkMode={darkMode}/>
+        <Square value={squares[7]} onSquareClick={() => handleClick(7)} darkMode={darkMode}/>
+        <Square value={squares[8]} onSquareClick={() => handleClick(8)} darkMode={darkMode}/>
       </div>
   </>
   );
@@ -55,7 +61,17 @@ export default function Game() {
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
+  const [isDarkMode, setIsDarkMode] = useState(() => false);
 
+  useEffect(() => {
+    if(isDarkMode){
+      document.body.classList.add('dark');
+    }
+    else{
+      document.body.classList.remove('dark');
+    }
+  })
+ 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
@@ -83,10 +99,13 @@ export default function Game() {
   return (
     <div className="game">
       <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} darkMode={isDarkMode} />
       </div>
       <div className="game-info">
         <ol>{moves}</ol>
+      </div>
+      <div className="toggle-button">
+        <DarkModeToggle onChange = {setIsDarkMode} checked = {isDarkMode} size = {40}/>
       </div>
     </div>
   );
