@@ -114,6 +114,36 @@ body {
   margin-left: 20px;
 }
 
-.toggle-button{
+.move-button {
+  background-color: #cfcddf;
+  box-shadow: 1px 1px 0px 1px#6c6b78;
+  border: none;
+  height: 20px;
+  border-radius: 2px;
+  margin-top: 2px;
+  margin-left: 2px;
+  transition: 0s;
+}
+
+.move-button:hover{
+  background-color: #b3b1c1;
+}
+
+.move-buttondark {
+  background-color: #9897a9;
+  box-shadow: 1px 1px 0px 1px#4e4d56;
+  border: none;
+  height: 20px;
+  border-radius: 2px;
+  margin-top: 2px;
+  margin-left: 2px;
+  transition: 0s;
+}
+
+.move-buttondark:hover{
+  background-color: #7a7986;
+}
+
+.toggle-button {
   margin-left: 20px;
 }

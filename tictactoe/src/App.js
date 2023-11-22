@@ -89,11 +89,20 @@ export default function Game() {
     } else {
       description = 'Go to game start';
     }
-    return (
+    if(isDarkMode){
+      return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <button className='move-buttondark' onClick={() => jumpTo(move)}>{description}</button>
       </li>
     );
+    }
+    else{
+      return (
+        <li key={move}>
+          <button className='move-button' onClick={() => jumpTo(move)}>{description}</button>
+        </li>
+      );
+    }
   });
 
   return (
