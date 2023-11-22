@@ -128,11 +128,18 @@ export default function Game() {
         <Board status={status} xIsNext={xIsNext} squares={currentSquares} onPlay={playerMove}  playWithBot={playWithBot}/>
       </div>
       <div className="game-info">
+        <div class="checkbox-container">
         <Checkbox
         label="Play against bot"
         value={playWithBot}
         onChange={() => setPlayWithBot(p => !p)}
         />
+         <Checkbox
+        label="Enter playernames"
+        value={!playWithBot}
+        onChange={() => setPlayWithBot(p => !p)}
+        />
+</div>
         <ol>{moves}</ol>
       </div>
     </div>
