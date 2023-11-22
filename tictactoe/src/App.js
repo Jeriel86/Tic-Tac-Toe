@@ -4,28 +4,27 @@ function Square({ value, onSquareClick }) {
   return <button className="square" onClick={onSquareClick}>{value}</button>;
 }
 
-function Board({ xIsNext, squares, onPlay }) {
+
+function Board({ xIsNext, squares, onPlay, playerNames }) {
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return;
     }
 
     const nextSquares = squares.slice();
+    const currentPlayerSymbol = xIsNext ? "X" : "O";
 
-    if (xIsNext) {
-      nextSquares[i] = "X";
-    } else {
-      nextSquares[i] = "O";
-    }
+    nextSquares[i] = currentPlayerSymbol;
     onPlay(nextSquares);
   }
 
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
-    status = "Winner: " + winner;
+    status = "Winner: " + (winner === "X" ? playerNames.player1 : playerNames.player2);
   } else {
-    status = "Next player: " + (xIsNext ? "X" : "O");
+    const currentPlayerSymbol = xIsNext ? "X" : "O";
+    status = "Next player: " + (currentPlayerSymbol === "X" ? playerNames.player1 : playerNames.player2);
   }
 
   return (
@@ -117,10 +116,9 @@ export default function Game() {
       ) : (
         <>
           <div className="game-board">
-            <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+            <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} playerNames={playerNames} />
           </div>
           <div className="game-info">
-            <div className="status">Current Player: {xIsNext ? playerNames.player1 : playerNames.player2}</div>
             <ol>{moves}</ol>
           </div>
         </>
