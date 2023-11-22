@@ -4,8 +4,39 @@ function Square({ value, onSquareClick }) {
   return <button className="square" onClick={onSquareClick}>{value}</button>;
 }
 
+function PlayerInput({ label, value, onChange }) {
+  return (
+    <label>
+      {label}:
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </label>
+  );
+}
 
-function Board({ xIsNext, squares, onPlay, playerNames }) {
+function Form({ playerNames, setPlayerNames }) {
+  return (
+    <div className="player-names-container">
+      <div className="player-names-form">
+        <PlayerInput
+          label="Player 1"
+          value={playerNames.player1}
+          onChange={(value) => setPlayerNames({ ...playerNames, player1: value })}
+        />
+        <PlayerInput
+          label="Player 2"
+          value={playerNames.player2}
+          onChange={(value) => setPlayerNames({ ...playerNames, player2: value })}
+        />
+      </div>
+    </div>
+  );
+}
+
+function Board({ xIsNext, squares, onPlay, playerNames, playWithBot }) {
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return;
@@ -21,10 +52,12 @@ function Board({ xIsNext, squares, onPlay, playerNames }) {
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
-    status = "Winner: " + (winner === "X" ? playerNames.player1 : playerNames.player2);
+    const winningPlayer = winner === "X" ? playerNames.player1 : playerNames.player2;
+    status = `Winner: ${winningPlayer} (${winner})`;
   } else {
     const currentPlayerSymbol = xIsNext ? "X" : "O";
-    status = "Next player: " + (currentPlayerSymbol === "X" ? playerNames.player1 : playerNames.player2);
+    const nextPlayer = currentPlayerSymbol === "X" ? playerNames.player1 : playerNames.player2;
+    status = `Next player: ${nextPlayer} (${currentPlayerSymbol})`;
   }
 
   return (
@@ -52,8 +85,8 @@ function Board({ xIsNext, squares, onPlay, playerNames }) {
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
-  const [playerNames, setPlayerNames] = useState({ player1: "", player2: "" });
-  const [gameStarted, setGameStarted] = useState(false);
+  const [playerNames, setPlayerNames] = useState({ player1: "You", player2: "Bot" });
+  const [playWithBot, setPlayWithBot] = useState(true);
 
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
@@ -67,12 +100,6 @@ export default function Game() {
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
   }
-
-  const startGame = () => {
-    if (playerNames.player1 && playerNames.player2) {
-      setGameStarted(true);
-    }
-  };
 
   const moves = history.map((squares, move) => {
     let description;
@@ -90,39 +117,21 @@ export default function Game() {
 
   return (
     <div className="game">
-     {!gameStarted ? (
-        <div className="player-names-container">
-          <h1>Tic Tac Toe</h1>
-          <div className="player-names-form">
-            <label>
-              Player 1:
-              <input
-                type="text"
-                value={playerNames.player1}
-                onChange={(e) => setPlayerNames({ ...playerNames, player1: e.target.value })}
-              />
-            </label>
-            <label>
-              Player 2:
-              <input
-                type="text"
-                value={playerNames.player2}
-                onChange={(e) => setPlayerNames({ ...playerNames, player2: e.target.value })}
-              />
-            </label>
-            <button onClick={startGame}>Start Game</button>
-          </div>
+
+      <>
+        <div className="game-board">
+          <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} playerNames={playerNames} playWithBot={playWithBot} />
         </div>
-      ) : (
-        <>
-          <div className="game-board">
-            <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} playerNames={playerNames} />
+        <div className="game-info">
+          <ol>{moves}</ol>
+        </div>
+        {(playWithBot) && (
+          <div className="form">
+            <Form playerNames={playerNames} setPlayerNames={setPlayerNames} />
           </div>
-          <div className="game-info">
-            <ol>{moves}</ol>
-          </div>
-        </>
-      )}
+        )}
+      </>
+
     </div>
   );
 }
