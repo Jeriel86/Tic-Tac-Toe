@@ -88,3 +88,10 @@ body {
 .game-info {
   margin-left: 20px;
 }
+
+.checkbox-container{
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
