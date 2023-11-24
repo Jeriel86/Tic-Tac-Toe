@@ -128,7 +128,7 @@ export default function Game() {
         <Board status={status} xIsNext={xIsNext} squares={currentSquares} onPlay={playerMove}  playWithBot={playWithBot}/>
       </div>
       <div className="game-info">
-        <div class="checkbox-container">
+      <div className="checkbox-container">
         <Checkbox
         label="Play against bot"
         value={playWithBot}
@@ -139,7 +139,7 @@ export default function Game() {
         value={!playWithBot}
         onChange={() => setPlayWithBot(p => !p)}
         />
-</div>
+      </div>
         <ol>{moves}</ol>
       </div>
     </div>
@@ -228,7 +228,6 @@ function evaluate(squares) {
     newSquares[i] = 'O';
     return !canFork('X', newSquares);
   });
-  console.log(possibles)
 
   if (possibles.length > 0)
     return possibles[Math.floor(Math.random() * possibles.length)];
