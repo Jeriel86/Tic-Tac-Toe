@@ -9,34 +9,76 @@ const Checkbox = ({ label, value, onChange }) => {
   );
 };
 
-function Square({value, onSquareClick}) {
+
+function Square({ value, onSquareClick }) {
   return <button className="square" onClick={onSquareClick}>{value}</button>;
 }
 
-function Board({ status, xIsNext, squares, onPlay, playWithBot }) {
+function PlayerInput({ label, value, onChange }) {
+  return (
+    <label>
+      {label}:
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </label>
+  );
+}
+
+function Form({ playerNames, setPlayerNames }) {
+  return (
+    <div className="player-names-container">
+      <div className="player-names-form">
+        <PlayerInput
+          label="Player 1"
+          value={playerNames.player1}
+          onChange={(value) => setPlayerNames({ ...playerNames, player1: value })}
+        />
+        <PlayerInput
+          label="Player 2"
+          value={playerNames.player2}
+          onChange={(value) => setPlayerNames({ ...playerNames, player2: value })}
+        />
+      </div>
+    </div>
+  );
+}
+
+function Board({ status, xIsNext, squares, onPlay,playerNames, playWithBot }) {
 
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return;
     }
 
-    if (playWithBot && !xIsNext) {
+
+     if (playWithBot && !xIsNext) {
       // bot plays O
       // player should not click on the board if it is bot's turn
       return;
     }
-
     const nextSquares = squares.slice();
-    if (xIsNext) {
-      nextSquares[i] = "X";
-    } else {
-      nextSquares[i] = "O";
-    }
+    const currentPlayerSymbol = xIsNext ? "X" : "O";
+
+    nextSquares[i] = currentPlayerSymbol;
     onPlay(nextSquares);
   }
 
+  const winner = calculateWinner(squares);
+  let status;
+  if (winner) {
+    const winningPlayer = winner === "X" ? playerNames.player1 : playerNames.player2;
+    status = `Winner: ${winningPlayer} (${winner})`;
+  } else {
+    const currentPlayerSymbol = xIsNext ? "X" : "O";
+    const nextPlayer = currentPlayerSymbol === "X" ? playerNames.player1 : playerNames.player2;
+    status = `Next player: ${nextPlayer} (${currentPlayerSymbol})`;
+  }
+
   return (
-  <>
+    <>
       <div className="status">{status}</div>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
@@ -53,13 +95,16 @@ function Board({ status, xIsNext, squares, onPlay, playWithBot }) {
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
-  </>
+    </>
   );
 }
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const [playerNames, setPlayerNames] = useState({ player1: "You", player2: "Bot" });
+  const [playWithBot, setPlayWithBot] = useState(true);
+
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
   const [playWithBot, setPlayWithBot] = useState(false);
@@ -124,11 +169,12 @@ export default function Game() {
 
   return (
     <div className="game">
-      <div className="game-board">
-        <Board status={status} xIsNext={xIsNext} squares={currentSquares} onPlay={playerMove}  playWithBot={playWithBot}/>
-      </div>
-      <div className="game-info">
-      <div className="checkbox-container">
+      <>
+        <div className="game-board">
+          <Board status={status} xIsNext={xIsNext} squares={currentSquares} onPlay={playerMove} playerNames={playerNames} playWithBot={playWithBot} />
+        </div>
+        <div className="game-info">
+          <div className="checkbox-container">
         <Checkbox
         label="Play against bot"
         value={playWithBot}
@@ -140,8 +186,14 @@ export default function Game() {
         onChange={() => setPlayWithBot(p => !p)}
         />
       </div>
-        <ol>{moves}</ol>
-      </div>
+          <ol>{moves}</ol>
+        </div>
+        {(playWithBot) && (
+          <div className="form">
+            <Form playerNames={playerNames} setPlayerNames={setPlayerNames} />
+          </div>
+        )}
+      </>
     </div>
   );
 }
