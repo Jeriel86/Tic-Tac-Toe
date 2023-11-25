@@ -46,7 +46,7 @@ function Form({ playerNames, setPlayerNames }) {
   );
 }
 
-function Board({ status, xIsNext, squares, onPlay,playerNames, playWithBot }) {
+function Board({ xIsNext, squares, onPlay, playerNames, playWithBot }) {
 
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
@@ -54,7 +54,7 @@ function Board({ status, xIsNext, squares, onPlay,playerNames, playWithBot }) {
     }
 
 
-     if (playWithBot && !xIsNext) {
+    if (playWithBot && !xIsNext) {
       // bot plays O
       // player should not click on the board if it is bot's turn
       return;
@@ -107,7 +107,6 @@ export default function Game() {
 
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
-  const [playWithBot, setPlayWithBot] = useState(false);
   const [timeTravel, setTimeTravel] = useState(false);
 
   const winner = calculateWinner(currentSquares);
@@ -133,7 +132,7 @@ export default function Game() {
       const nextSquares = currentSquares.slice();
       const nextMove = evaluate(nextSquares);
       nextSquares[nextMove] = "O";
-  
+
       const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
       setHistory(nextHistory);
       setCurrentMove(nextHistory.length - 1);
@@ -164,7 +163,7 @@ export default function Game() {
     );
   });
 
-    
+
   const status = gameStatus(currentSquares, xIsNext);
 
   return (
@@ -175,20 +174,20 @@ export default function Game() {
         </div>
         <div className="game-info">
           <div className="checkbox-container">
-        <Checkbox
-        label="Play against bot"
-        value={playWithBot}
-        onChange={() => setPlayWithBot(p => !p)}
-        />
-         <Checkbox
-        label="Enter playernames"
-        value={!playWithBot}
-        onChange={() => setPlayWithBot(p => !p)}
-        />
-      </div>
+            <Checkbox
+              label="Play against bot"
+              value={playWithBot}
+              onChange={() => setPlayWithBot(p => !p)}
+            />
+            <Checkbox
+              label="Enter playernames"
+              value={!playWithBot}
+              onChange={() => setPlayWithBot(p => !p)}
+            />
+          </div>
           <ol>{moves}</ol>
         </div>
-        {(playWithBot) && (
+        {(!playWithBot) && (
           <div className="form">
             <Form playerNames={playerNames} setPlayerNames={setPlayerNames} />
           </div>
@@ -234,8 +233,8 @@ function moveLeft(squares) {
     if (currElement === "X" || currElement === "O") {
       return null;
     }
-    return index; 
-    }).filter((item) => item !== null); 
+    return index;
+  }).filter((item) => item !== null);
 }
 
 function matchingLines(squares, checker) {
