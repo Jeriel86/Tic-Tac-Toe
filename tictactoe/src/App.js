@@ -1,7 +1,13 @@
 import { useState } from 'react';
 
 function Square({value, onSquareClick}) {
-  return <button className="square" style={{ color: value === "X"? 'green': 'red'}} onClick={onSquareClick}>{value}</button>;
+  const darkMode = false;
+  if(darkMode){
+    return <button className={value === "X"?"squaredarkX":"squaredarkO"} onClick={onSquareClick}>{value}</button>;
+  }
+  else{
+    return <button className={value === "X"?"squarelightX":"squarelightO"} onClick={onSquareClick}>{value}</button>;
+  }
 }
 
 function Board({ xIsNext, squares, onPlay }) {
