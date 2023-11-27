@@ -84,7 +84,7 @@ export default function Game() {
           <button className="bwd_button" onClick={() => jumpTo(currentMove - 1)} disabled={currentMove === 0}>
             Backward
           </button>
-          <span style = {{ margin: '0 5px'}}></span>
+          <span className="span-margin"></span>
           {/* forward button */}
           <button className="fwd_button" onClick={() => jumpTo(currentMove + 1)} disabled={currentMove === history.length - 1}>
             Forward
@@ -95,7 +95,7 @@ export default function Game() {
         <div>
           <label htmlFor="moveSelector">Select a move: </label>
           <select id="moveSelector" value={currentMove} onChange={(e) => jumpTo(Number(e.target.value))}>
-            {moveOptions}
+            {moves}
           </select>
         </div>
         

@@ -93,6 +93,10 @@ body {
   color: red;
 }
 
+.span-margin {
+  margin: 0 5px;
+}
+
 .fwd_button {
   color: green;
 }
