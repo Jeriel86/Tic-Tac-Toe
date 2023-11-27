@@ -21,6 +21,10 @@ function Board({ xIsNext, squares, onPlay }) {
     const nextSquares = squares.slice();
     if (xIsNext) {
       nextSquares[i] = "X";
+    }if (playWithBot && !xIsNext) {
+      // bot plays O
+      // player should not click on the board if it is bot's turn
+      return;
     } else {
       nextSquares[i] = "O";
     }
