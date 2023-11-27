@@ -57,7 +57,7 @@ body {
 }
 
 
-.squarelightX {
+.squareX {
   background: #fff;
   border: 1px solid #999;
   float: left;
@@ -73,45 +73,13 @@ body {
   width: 34px;
 }
 
-.squarelightO {
+.squareO {
   background: #fff;
   border: 1px solid #999;
   float: left;
   font-size: 24px;
   font-weight: bold;
   color: red;
-  line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-  width: 34px;
-}
-
-.squaredarkO {
-  background: #252525;
-  border: 1px solid #999;
-  float: left;
-  font-size: 24px;
-  font-weight: bold;
-  color: red;
-  line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-  width: 34px;
-}
-
-.squaredarkX {
-  background: #252525;
-  border: 1px solid #999;
-  float: left;
-  font-size: 24px;
-  font-weight: bold;
-  color: green;
   line-height: 34px;
   height: 34px;
   margin-right: -1px;

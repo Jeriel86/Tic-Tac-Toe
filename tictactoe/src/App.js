@@ -3,10 +3,10 @@ import { useState } from 'react';
 function Square({value, onSquareClick}) {
   const darkMode = false;
   if(darkMode){
-    return <button className={value === "X"?"squaredarkX":"squaredarkO"} onClick={onSquareClick}>{value}</button>;
+    return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
   }
   else{
-    return <button className={value === "X"?"squarelightX":"squarelightO"} onClick={onSquareClick}>{value}</button>;
+    return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
   }
 }
 
