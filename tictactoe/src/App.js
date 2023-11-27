@@ -18,14 +18,17 @@ function Board({ xIsNext, squares, onPlay }) {
     if (squares[i] || calculateWinner(squares)) {
       return;
     }
-    const nextSquares = squares.slice();
-    if (xIsNext) {
-      nextSquares[i] = "X";
-    }if (playWithBot && !xIsNext) {
+
+    if (playWithBot && !xIsNext) {
       // bot plays O
       // player should not click on the board if it is bot's turn
       return;
-    } else {
+    } 
+
+    const nextSquares = squares.slice();
+    if (xIsNext) {
+      nextSquares[i] = "X";
+    }else {
       nextSquares[i] = "O";
     }
     onPlay(nextSquares);
