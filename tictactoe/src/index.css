@@ -100,3 +100,21 @@ body {
 .fwd_button {
   color: green;
 }
+
+.player-names-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.player-names-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkbox-container{
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
