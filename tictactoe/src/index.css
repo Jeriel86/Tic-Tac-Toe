@@ -2,17 +2,10 @@
   box-sizing: border-box;
 }
 
-
 body {
   font-family: sans-serif;
   margin: 20px;
   padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-
 }
 
 h1 {
@@ -87,11 +80,28 @@ body {
 .status {
   margin-bottom: 10px;
 }
+.game {
+  display: flex;
+  flex-direction: row;
+}
 
 .game-info {
   margin-left: 20px;
 }
 
+.bwd_button {
+  color: red;
+  margin-bottom: 5px;
+}
+
+.span-margin {
+  margin: 0 5px;
+}
+
+.fwd_button {
+  color: green;
+  margin-bottom: 5px;
+}
 
 .player-names-container {
   text-align: center;
@@ -110,4 +120,3 @@ body {
   flex-direction: column;
   gap: 3px;
 }
-

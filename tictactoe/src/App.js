@@ -52,13 +52,14 @@ function Board({ xIsNext, squares, onPlay, playerNames, playWithBot }) {
     if (squares[i] || calculateWinner(squares)) {
       return;
     }
-
-
+    
+    
     if (playWithBot && !xIsNext) {
       // bot plays O
       // player should not click on the board if it is bot's turn
       return;
-    }
+    } 
+
     const nextSquares = squares.slice();
     const currentPlayerSymbol = xIsNext ? "X" : "O";
 
@@ -98,6 +99,7 @@ function Board({ xIsNext, squares, onPlay, playerNames, playWithBot }) {
     </>
   );
 }
+
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
@@ -149,30 +151,48 @@ export default function Game() {
     setTimeTravel(true);
   }
 
-  const moves = history.map((squares, move) => {
-    let description;
-    if (move > 0) {
-      description = 'Go to move #' + move;
-    } else {
-      description = 'Go to game start';
-    }
-    return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
-      </li>
-    );
-  });
+  const moves = history.map((squares, move) => (
+    <option key={move} value={move}>
+      {move === 0 ? 'Go to game start' : `Go to move #${move}`}
+    </option>
+  ));
 
 
   const status = gameStatus(currentSquares, xIsNext);
 
-  return (
+return (
     <div className="game">
       <>
         <div className="game-board">
-          <Board status={status} xIsNext={xIsNext} squares={currentSquares} onPlay={playerMove} playerNames={playerNames} playWithBot={playWithBot} />
+            <Board status={status} xIsNext={xIsNext} squares={currentSquares} onPlay={playerMove} playerNames={playerNames} playWithBot={playWithBot} />
         </div>
+
         <div className="game-info">
+          
+
+          {/* Navigation buttons */}
+          <div>
+            {/* backward button */}
+            <button className="bwd_button" onClick={() => jumpTo(currentMove - 1)} disabled={currentMove === 0}>
+              Backward
+            </button>
+            {/* to separate the fwd and bwd buttons */}
+            <span className="span-margin"></span>
+            {/* forward button */}
+            <button className="fwd_button" onClick={() => jumpTo(currentMove + 1)} disabled={currentMove === history.length - 1}>
+              Forward
+            </button>
+          </div>
+          
+          {/* Drop-down list of move-history */}
+          <div>
+            <label htmlFor="moveSelector">Select move: </label>
+            <select id="moveSelector" value={currentMove} onChange={(e) => jumpTo(Number(e.target.value))}>
+              {moves}
+            </select>
+          </div>
+
+          {/* playernames and Bot checkboxes part (below Select move) */}
           <div className="checkbox-container">
             <Checkbox
               label="Play against bot"
@@ -185,12 +205,13 @@ export default function Game() {
               onChange={() => setPlayWithBot(p => !p)}
             />
           </div>
-          <ol>{moves}</ol>
+          
         </div>
+
         {(!playWithBot) && (
-          <div className="form">
-            <Form playerNames={playerNames} setPlayerNames={setPlayerNames} />
-          </div>
+            <div className="form">
+              <Form playerNames={playerNames} setPlayerNames={setPlayerNames} />
+            </div>
         )}
       </>
     </div>
