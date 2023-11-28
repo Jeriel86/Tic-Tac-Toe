@@ -8,7 +8,9 @@ function Square({value, onSquareClick}) {
   else{
     return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
   }
-=======
+
+}
+
 const Checkbox = ({ label, value, onChange }) => {
   return (
     <label>
