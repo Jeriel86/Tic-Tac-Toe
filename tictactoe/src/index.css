@@ -148,8 +148,26 @@ body {
 }
 
 .bwd_button {
+  border: 1px solid #999;
+  height: 21px;
+  width: 70px;
+  border-radius: 3px;
   color: red;
   margin-bottom: 5px;
+}
+
+.bwd_buttondark {
+  background-color: #9897a9;
+  border: 1px solid black;
+  height: 21px;
+  width: 70px;
+  border-radius: 3px;
+  color: red;
+  margin-bottom: 5px;
+}
+
+.bwd_buttondark:hover:enabled{
+background-color: #7a7986;
 }
 
 .span-margin {
@@ -157,9 +175,27 @@ body {
 }
 
 .fwd_button {
+  border: 1px solid #999;
+  height: 21px;
+  width: 60px;
+  border-radius: 3px;
   color: green;
   margin-bottom: 5px;
 }
+
+.fwd_buttondark {
+  background-color: #9897a9;
+  border: 1px solid black;
+  height: 21px;
+  width: 60px;
+  border-radius: 3px;
+  color:  #005b00;
+  margin-bottom: 5px;
+}
+
+.fwd_buttondark:hover:enabled{
+  background-color: #7a7986;
+  }  
 
 .player-names-container {
   text-align: center;
@@ -177,36 +213,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3px;
-}
-
-.move-button {
-  background-color: #cfcddf;
-  box-shadow: 1px 1px 0px 1px#6c6b78;
-  border: none;
-  height: 20px;
-  border-radius: 2px;
-  margin-top: 2px;
-  margin-left: 2px;
-  transition: 0s;
-}
-
-.move-button:hover{
-  background-color: #b3b1c1;
-}
-
-.move-buttondark {
-  background-color: #9897a9;
-  box-shadow: 1px 1px 0px 1px#4e4d56;
-  border: none;
-  height: 20px;
-  border-radius: 2px;
-  margin-top: 2px;
-  margin-left: 2px;
-  transition: 0s;
-}
-
-.move-buttondark:hover{
-  background-color: #7a7986;
 }
 
 .toggle-button {

@@ -175,6 +175,16 @@ export default function Game() {
 
   const status = gameStatus(currentSquares, xIsNext);
 
+  const classNames = [["bwd_button","fwd_button"],["bwd_buttondark","fwd_buttondark"]];
+  const classNamesMode = checkDarkMode(isDarkMode);
+
+  function checkDarkMode(isDarkMode){
+    if(isDarkMode){
+      return 1;
+    }
+    return 0;
+  }
+
 return (
     <div className="game">
       <>
@@ -188,13 +198,13 @@ return (
           {/* Navigation buttons */}
           <div>
             {/* backward button */}
-            <button className="bwd_button" onClick={() => jumpTo(currentMove - 1)} disabled={currentMove === 0}>
+            <button className={classNames[classNamesMode][0]} onClick={() => jumpTo(currentMove - 1)} disabled={currentMove === 0}>
               Backward
             </button>
             {/* to separate the fwd and bwd buttons */}
             <span className="span-margin"></span>
             {/* forward button */}
-            <button className="fwd_button" onClick={() => jumpTo(currentMove + 1)} disabled={currentMove === history.length - 1}>
+            <button className={classNames[classNamesMode][1]} onClick={() => jumpTo(currentMove + 1)} disabled={currentMove === history.length - 1}>
               Forward
             </button>
           </div>
