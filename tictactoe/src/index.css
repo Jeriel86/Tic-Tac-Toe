@@ -148,6 +148,7 @@ body {
 }
 
 .bwd_button {
+  background-color: #ededed;
   border: 1px solid #999;
   height: 21px;
   width: 70px;
@@ -155,6 +156,10 @@ body {
   color: red;
   margin-bottom: 5px;
 }
+
+.bwd_button:hover:enabled{
+  background-color: #d4d4d4;
+  }
 
 .bwd_buttondark {
   background-color: #9897a9;
@@ -175,6 +180,7 @@ background-color: #7a7986;
 }
 
 .fwd_button {
+  background-color: #ededed;
   border: 1px solid #999;
   height: 21px;
   width: 60px;
@@ -182,6 +188,10 @@ background-color: #7a7986;
   color: green;
   margin-bottom: 5px;
 }
+
+.fwd_button:hover:enabled{
+  background-color: #d4d4d4;
+  }
 
 .fwd_buttondark {
   background-color: #9897a9;
@@ -195,7 +205,31 @@ background-color: #7a7986;
 
 .fwd_buttondark:hover:enabled{
   background-color: #7a7986;
-  }  
+  } 
+  
+.move_dropdown {
+  height: 21px;
+  background-color: #ededed;
+  border: 1px solid #999;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.move_dropdown:hover{
+  background-color: #d4d4d4;
+}
+
+.move_dropdowndark{
+  height: 21px;
+  background-color: #9897a9;
+  border: 1px solid black;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.move_dropdowndark:hover{
+  background-color: #7a7986;
+}
 
 .player-names-container {
   text-align: center;
@@ -213,6 +247,23 @@ background-color: #7a7986;
   display: flex;
   flex-direction: column;
   gap: 3px;
+}
+
+.playerName_input{
+  background-color: #fff;
+  border: 1px solid #999;
+  height: 21px;
+  width: 120px;
+  border-radius: 3px;
+  color: #252525;
+}
+.playerName_inputdark{
+  background-color: #252525;
+  border: 1px solid white;
+  height: 21px;
+  width: 120px;
+  border-radius: 3px;
+  color: #fff;
 }
 
 .toggle-button {

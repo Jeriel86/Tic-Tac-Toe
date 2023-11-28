@@ -20,11 +20,12 @@ const Checkbox = ({ label, value, onChange }) => {
   );
 };
 
-function PlayerInput({ label, value, onChange }) {
+function PlayerInput({ label, value, onChange, classNames }) {
   return (
     <label>
       {label}:
       <input
+        className={classNames}
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -33,7 +34,7 @@ function PlayerInput({ label, value, onChange }) {
   );
 }
 
-function Form({ playerNames, setPlayerNames }) {
+function Form({ playerNames, setPlayerNames, classNames }) {
   return (
     <div className="player-names-container">
       <div className="player-names-form">
@@ -41,11 +42,13 @@ function Form({ playerNames, setPlayerNames }) {
           label="Player 1"
           value={playerNames.player1}
           onChange={(value) => setPlayerNames({ ...playerNames, player1: value })}
+          classNames={classNames}
         />
         <PlayerInput
           label="Player 2"
           value={playerNames.player2}
           onChange={(value) => setPlayerNames({ ...playerNames, player2: value })}
+          classNames={classNames}
         />
       </div>
     </div>
@@ -175,7 +178,7 @@ export default function Game() {
 
   const status = gameStatus(currentSquares, xIsNext);
 
-  const classNames = [["bwd_button","fwd_button"],["bwd_buttondark","fwd_buttondark"]];
+  const classNames = [["bwd_button","fwd_button","move_dropdown","playerName_input"],["bwd_buttondark","fwd_buttondark","move_dropdowndark","playerName_inputdark"]];
   const classNamesMode = checkDarkMode(isDarkMode);
 
   function checkDarkMode(isDarkMode){
@@ -212,7 +215,7 @@ return (
           {/* Drop-down list of move-history */}
           <div>
             <label htmlFor="moveSelector">Select move: </label>
-            <select id="moveSelector" value={currentMove} onChange={(e) => jumpTo(Number(e.target.value))}>
+            <select className={classNames[classNamesMode][2]} id="moveSelector" value={currentMove} onChange={(e) => jumpTo(Number(e.target.value))}>
               {moves}
             </select>
           </div>
@@ -235,7 +238,7 @@ return (
 
         {(!playWithBot) && (
             <div className="form">
-              <Form playerNames={playerNames} setPlayerNames={setPlayerNames} />
+              <Form playerNames={playerNames} setPlayerNames={setPlayerNames} classNames={classNames[classNamesMode][3]}/>
             </div>
         )}
       </>
