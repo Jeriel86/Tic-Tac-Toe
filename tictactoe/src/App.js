@@ -28,7 +28,7 @@ function PlayerInput({ label, value, onChange, classNames }) {
         className={classNames}
         type="text"
         value={value}
-        maxLength={20}
+        maxLength={9}
         onChange={(e) => onChange(e.target.value)}
       />
     </label>
@@ -227,7 +227,7 @@ return (
             <Checkbox
               label="Play against bot"
               value={playWithBot}
-              onChange={() => setPlayWithBot(p => !p)}
+              onChange={() => {setPlayWithBot(p => !p); setPlayerNames({ player1: "You", player2: "Bot" })}}
             />
             <Checkbox
               label="Enter playernames"
