@@ -28,6 +28,7 @@ function PlayerInput({ label, value, onChange, classNames }) {
         className={classNames}
         type="text"
         value={value}
+        maxLength={20}
         onChange={(e) => onChange(e.target.value)}
       />
     </label>
@@ -178,7 +179,8 @@ export default function Game() {
 
   const status = gameStatus(currentSquares, xIsNext);
 
-  const classNames = [["bwd_button","fwd_button","move_dropdown","playerName_input"],["bwd_buttondark","fwd_buttondark","move_dropdowndark","playerName_inputdark"]];
+  const classNames = [["bwd_button","fwd_button","move_dropdown","playerName_input"],
+                      ["bwd_buttondark","fwd_buttondark","move_dropdowndark","playerName_inputdark"]];
   const classNamesMode = checkDarkMode(isDarkMode);
 
   function checkDarkMode(isDarkMode){
