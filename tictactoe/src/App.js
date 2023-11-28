@@ -1,4 +1,15 @@
 import { useEffect, useEffect, useState } from 'react';
+
+function Square({value, onSquareClick}) {
+  const darkMode = false;
+  if(darkMode){
+    return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
+  }
+  else{
+    return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
+  }
+
+}
 import DarkModeToggle from 'react-dark-mode-toggle';
 
 const Checkbox = ({ label, value, onChange }) => {
@@ -9,16 +20,6 @@ const Checkbox = ({ label, value, onChange }) => {
     </label>
   );
 };
-
-
-function Square({value, onSquareClick, darkMode}) {
-  if(darkMode){
-    return <button className="squaredark" onClick={onSquareClick}>{value}</button>;
-  }
-  else{
-    return <button className="squarelight" onClick={onSquareClick}>{value}</button>;
-  }
-}
 
 function PlayerInput({ label, value, onChange }) {
   return (
