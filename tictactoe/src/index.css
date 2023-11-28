@@ -8,6 +8,14 @@ body {
   padding: 0;
 }
 
+body.dark {
+  font-family: sans-serif;
+  background-color: #252525;
+  color: #f0f0f0;
+  margin: 20px;
+  padding: 0;
+}
+
 h1 {
   margin-top: 0;
   font-size: 22px;
@@ -89,6 +97,37 @@ body {
   width: 34px;
 }
 
+.squareXdark {
+  background: #252525;
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  color: green;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+.squareOdark {
+  background: #252525;
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  color: red;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
 
 .board-row:after {
   clear: both;
@@ -104,13 +143,40 @@ body {
   flex-direction: row;
 }
 
+.game-board{
+  width: 200px;
+}
+
 .game-info {
   margin-left: 20px;
 }
 
 .bwd_button {
+  background-color: #ededed;
+  border: 1px solid #999;
+  height: 21px;
+  width: 70px;
+  border-radius: 3px;
   color: red;
   margin-bottom: 5px;
+}
+
+.bwd_button:hover:enabled{
+  background-color: #d4d4d4;
+  }
+
+.bwd_buttondark {
+  background-color: #9897a9;
+  border: 1px solid black;
+  height: 21px;
+  width: 70px;
+  border-radius: 3px;
+  color: red;
+  margin-bottom: 5px;
+}
+
+.bwd_buttondark:hover:enabled{
+background-color: #7a7986;
 }
 
 .span-margin {
@@ -118,8 +184,55 @@ body {
 }
 
 .fwd_button {
+  background-color: #ededed;
+  border: 1px solid #999;
+  height: 21px;
+  width: 60px;
+  border-radius: 3px;
   color: green;
   margin-bottom: 5px;
+}
+
+.fwd_button:hover:enabled{
+  background-color: #d4d4d4;
+  }
+
+.fwd_buttondark {
+  background-color: #9897a9;
+  border: 1px solid black;
+  height: 21px;
+  width: 60px;
+  border-radius: 3px;
+  color:  #005b00;
+  margin-bottom: 5px;
+}
+
+.fwd_buttondark:hover:enabled{
+  background-color: #7a7986;
+  } 
+  
+.move_dropdown {
+  height: 21px;
+  background-color: #ededed;
+  border: 1px solid #999;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.move_dropdown:hover{
+  background-color: #d4d4d4;
+}
+
+.move_dropdowndark{
+  height: 21px;
+  background-color: #9897a9;
+  border: 1px solid black;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.move_dropdowndark:hover{
+  background-color: #7a7986;
 }
 
 .player-names-container {
@@ -138,4 +251,25 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3px;
+}
+
+.playerName_input{
+  background-color: #fff;
+  border: 1px solid #999;
+  height: 21px;
+  width: 120px;
+  border-radius: 3px;
+  color: #252525;
+}
+.playerName_inputdark{
+  background-color: #252525;
+  border: 1px solid white;
+  height: 21px;
+  width: 120px;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.toggle-button {
+  margin-left: 20px;
 }

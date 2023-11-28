@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+import DarkModeToggle from 'react-dark-mode-toggle';
 
-function Square({value, onSquareClick}) {
-  const darkMode = false;
+function Square({value, onSquareClick, darkMode}) {
   if(darkMode){
-    return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
+    return <button className={value === "X"?"squareXdark":"squareOdark"} onClick={onSquareClick}>{value}</button>;
   }
   else{
     return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
@@ -20,20 +20,22 @@ const Checkbox = ({ label, value, onChange }) => {
   );
 };
 
-function PlayerInput({ label, value, onChange }) {
+function PlayerInput({ label, value, onChange, classNames }) {
   return (
     <label>
       {label}:
       <input
+        className={classNames}
         type="text"
         value={value}
+        maxLength={20}
         onChange={(e) => onChange(e.target.value)}
       />
     </label>
   );
 }
 
-function Form({ playerNames, setPlayerNames }) {
+function Form({ playerNames, setPlayerNames, classNames }) {
   return (
     <div className="player-names-container">
       <div className="player-names-form">
@@ -41,31 +43,32 @@ function Form({ playerNames, setPlayerNames }) {
           label="Player 1"
           value={playerNames.player1}
           onChange={(value) => setPlayerNames({ ...playerNames, player1: value })}
+          classNames={classNames}
         />
         <PlayerInput
           label="Player 2"
           value={playerNames.player2}
           onChange={(value) => setPlayerNames({ ...playerNames, player2: value })}
+          classNames={classNames}
         />
       </div>
     </div>
   );
 }
 
-function Board({ xIsNext, squares, onPlay, playerNames, playWithBot }) {
+function Board({ xIsNext, squares, onPlay, playerNames, playWithBot, darkMode }) {
 
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return;
     }
-    
-    
-    if (playWithBot && !xIsNext) {
-      // bot plays O
-      // player should not click on the board if it is bot's turn
-      return;
-    } 
-
+ 
+  if (playWithBot && !xIsNext) {
+    // bot plays O
+    // player should not click on the board if it is bot's turn
+    return;
+  }
+  
     const nextSquares = squares.slice();
     const currentPlayerSymbol = xIsNext ? "X" : "O";
 
@@ -88,19 +91,19 @@ function Board({ xIsNext, squares, onPlay, playerNames, playWithBot }) {
     <>
       <div className="status">{status}</div>
       <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} darkMode={darkMode} />
+        <Square value={squares[1]} onSquareClick={() => handleClick(1)} darkMode={darkMode}/>
+        <Square value={squares[2]} onSquareClick={() => handleClick(2)} darkMode={darkMode}/>
       </div>
       <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+        <Square value={squares[3]} onSquareClick={() => handleClick(3)} darkMode={darkMode}/>
+        <Square value={squares[4]} onSquareClick={() => handleClick(4)} darkMode={darkMode}/>
+        <Square value={squares[5]} onSquareClick={() => handleClick(5)} darkMode={darkMode}/>
       </div>
       <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+        <Square value={squares[6]} onSquareClick={() => handleClick(6)} darkMode={darkMode}/>
+        <Square value={squares[7]} onSquareClick={() => handleClick(7)} darkMode={darkMode}/>
+        <Square value={squares[8]} onSquareClick={() => handleClick(8)} darkMode={darkMode}/>
       </div>
     </>
   );
@@ -123,7 +126,17 @@ export default function Game() {
   const playerToMove = (!playWithBot || xIsNext) && !gameOver;
 
 
+  const [isDarkMode, setIsDarkMode] = useState(() => false);
 
+  useEffect(() => {
+    if(isDarkMode){
+      document.body.classList.add('dark');
+    }
+    else{
+      document.body.classList.remove('dark');
+    }
+  })
+ 
   function playerMove(nextSquares) {
     if (!playerToMove)
       return;
@@ -166,11 +179,22 @@ export default function Game() {
 
   const status = gameStatus(currentSquares, xIsNext);
 
+  const classNames = [["bwd_button","fwd_button","move_dropdown","playerName_input"],
+                      ["bwd_buttondark","fwd_buttondark","move_dropdowndark","playerName_inputdark"]];
+  const classNamesMode = checkDarkMode(isDarkMode);
+
+  function checkDarkMode(isDarkMode){
+    if(isDarkMode){
+      return 1;
+    }
+    return 0;
+  }
+
 return (
     <div className="game">
       <>
         <div className="game-board">
-            <Board status={status} xIsNext={xIsNext} squares={currentSquares} onPlay={playerMove} playerNames={playerNames} playWithBot={playWithBot} />
+            <Board status={status} xIsNext={xIsNext} squares={currentSquares} onPlay={playerMove} playerNames={playerNames} playWithBot={playWithBot} darkMode={isDarkMode} />
         </div>
 
         <div className="game-info">
@@ -179,13 +203,13 @@ return (
           {/* Navigation buttons */}
           <div>
             {/* backward button */}
-            <button className="bwd_button" onClick={() => jumpTo(currentMove - 1)} disabled={currentMove === 0}>
+            <button className={classNames[classNamesMode][0]} onClick={() => jumpTo(currentMove - 1)} disabled={currentMove === 0}>
               Backward
             </button>
             {/* to separate the fwd and bwd buttons */}
             <span className="span-margin"></span>
             {/* forward button */}
-            <button className="fwd_button" onClick={() => jumpTo(currentMove + 1)} disabled={currentMove === history.length - 1}>
+            <button className={classNames[classNamesMode][1]} onClick={() => jumpTo(currentMove + 1)} disabled={currentMove === history.length - 1}>
               Forward
             </button>
           </div>
@@ -193,7 +217,7 @@ return (
           {/* Drop-down list of move-history */}
           <div>
             <label htmlFor="moveSelector">Select move: </label>
-            <select id="moveSelector" value={currentMove} onChange={(e) => jumpTo(Number(e.target.value))}>
+            <select className={classNames[classNamesMode][2]} id="moveSelector" value={currentMove} onChange={(e) => jumpTo(Number(e.target.value))}>
               {moves}
             </select>
           </div>
@@ -216,10 +240,13 @@ return (
 
         {(!playWithBot) && (
             <div className="form">
-              <Form playerNames={playerNames} setPlayerNames={setPlayerNames} />
+              <Form playerNames={playerNames} setPlayerNames={setPlayerNames} classNames={classNames[classNamesMode][3]}/>
             </div>
         )}
       </>
+      <div className="toggle-button">
+        <DarkModeToggle onChange = {setIsDarkMode} checked = {isDarkMode} size = {40}/>
+      </div>
     </div>
   );
 }
