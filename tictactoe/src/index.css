@@ -88,7 +88,6 @@ body {
   font-size: 24px;
   font-weight: bold;
   color: red;
-  color: black;
   line-height: 34px;
   height: 34px;
   margin-right: -1px;
@@ -98,13 +97,13 @@ body {
   width: 34px;
 }
 
-.squaredark {
+.squareXdark {
   background: #252525;
   border: 1px solid #999;
   float: left;
   font-size: 24px;
   font-weight: bold;
-  color: #f0f0f0;
+  color: green;
   line-height: 34px;
   height: 34px;
   margin-right: -1px;
@@ -114,6 +113,21 @@ body {
   width: 34px;
 }
 
+.squareOdark {
+  background: #252525;
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  color: red;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
 
 .board-row:after {
   clear: both;

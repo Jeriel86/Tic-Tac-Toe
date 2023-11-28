@@ -1,16 +1,15 @@
-import { useEffect, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import DarkModeToggle from 'react-dark-mode-toggle';
 
-function Square({value, onSquareClick}) {
-  const darkMode = false;
+function Square({value, onSquareClick, darkMode}) {
   if(darkMode){
-    return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
+    return <button className={value === "X"?"squareXdark":"squareOdark"} onClick={onSquareClick}>{value}</button>;
   }
   else{
     return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
   }
 
 }
-import DarkModeToggle from 'react-dark-mode-toggle';
 
 const Checkbox = ({ label, value, onChange }) => {
   return (
