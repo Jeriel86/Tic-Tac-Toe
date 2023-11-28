@@ -1,5 +1,14 @@
 import { useEffect, useState } from 'react';
 
+function Square({value, onSquareClick}) {
+  const darkMode = false;
+  if(darkMode){
+    return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
+  }
+  else{
+    return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
+  }
+=======
 const Checkbox = ({ label, value, onChange }) => {
   return (
     <label>
@@ -8,11 +17,6 @@ const Checkbox = ({ label, value, onChange }) => {
     </label>
   );
 };
-
-
-function Square({ value, onSquareClick }) {
-  return <button className="square" onClick={onSquareClick}>{value}</button>;
-}
 
 function PlayerInput({ label, value, onChange }) {
   return (
