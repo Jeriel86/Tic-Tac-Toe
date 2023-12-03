@@ -1,14 +1,12 @@
-import { useEffect, useState } from 'react';
-import DarkModeToggle from 'react-dark-mode-toggle';
+import { useEffect, useState } from 'react'
+import DarkModeToggle from 'react-dark-mode-toggle'
 
-function Square({value, onSquareClick, darkMode}) {
-  if(darkMode){
-    return <button className={value === "X"?"squareXdark":"squareOdark"} onClick={onSquareClick}>{value}</button>;
+function Square ({ value, onSquareClick, darkMode }) {
+  if (darkMode) {
+    return <button className={value === 'X' ? 'squareXdark' : 'squareOdark'} onClick={onSquareClick}>{value}</button>
+  } else {
+    return <button className={value === 'X' ? 'squareX' : 'squareO'} onClick={onSquareClick}>{value}</button>
   }
-  else{
-    return <button className={value === "X"?"squareX":"squareO"} onClick={onSquareClick}>{value}</button>;
-  }
-
 }
 
 const Checkbox = ({ label, value, onChange }) => {
@@ -17,10 +15,10 @@ const Checkbox = ({ label, value, onChange }) => {
       <input type="checkbox" checked={value} onChange={onChange} />
       {label}
     </label>
-  );
-};
+  )
+}
 
-function PlayerInput({ label, value, onChange, classNames }) {
+function PlayerInput ({ label, value, onChange, classNames }) {
   return (
     <label>
       {label}:
@@ -32,10 +30,10 @@ function PlayerInput({ label, value, onChange, classNames }) {
         onChange={(e) => onChange(e.target.value)}
       />
     </label>
-  );
+  )
 }
 
-function Form({ playerNames, setPlayerNames, classNames }) {
+function Form ({ playerNames, setPlayerNames, classNames }) {
   return (
     <div className="player-names-container">
       <div className="player-names-form">
@@ -53,38 +51,37 @@ function Form({ playerNames, setPlayerNames, classNames }) {
         />
       </div>
     </div>
-  );
+  )
 }
 
-function Board({ xIsNext, squares, onPlay, playerNames, playWithBot, darkMode }) {
-
-  function handleClick(i) {
+function Board ({ xIsNext, squares, onPlay, playerNames, playWithBot, darkMode }) {
+  function handleClick (i) {
     if (squares[i] || calculateWinner(squares)) {
-      return;
+      return
     }
- 
-  if (playWithBot && !xIsNext) {
+
+    if (playWithBot && !xIsNext) {
     // bot plays O
     // player should not click on the board if it is bot's turn
-    return;
-  }
-  
-    const nextSquares = squares.slice();
-    const currentPlayerSymbol = xIsNext ? "X" : "O";
+      return
+    }
 
-    nextSquares[i] = currentPlayerSymbol;
-    onPlay(nextSquares);
+    const nextSquares = squares.slice()
+    const currentPlayerSymbol = xIsNext ? 'X' : 'O'
+
+    nextSquares[i] = currentPlayerSymbol
+    onPlay(nextSquares)
   }
 
-  const winner = calculateWinner(squares);
-  let status;
+  const winner = calculateWinner(squares)
+  let status
   if (winner) {
-    const winningPlayer = winner === "X" ? playerNames.player1 : playerNames.player2;
-    status = `Winner: ${winningPlayer} (${winner})`;
+    const winningPlayer = winner === 'X' ? playerNames.player1 : playerNames.player2
+    status = `Winner: ${winningPlayer} (${winner})`
   } else {
-    const currentPlayerSymbol = xIsNext ? "X" : "O";
-    const nextPlayer = currentPlayerSymbol === "X" ? playerNames.player1 : playerNames.player2;
-    status = `Next player: ${nextPlayer} (${currentPlayerSymbol})`;
+    const currentPlayerSymbol = xIsNext ? 'X' : 'O'
+    const nextPlayer = currentPlayerSymbol === 'X' ? playerNames.player1 : playerNames.player2
+    status = `Next player: ${nextPlayer} (${currentPlayerSymbol})`
   }
 
   return (
@@ -106,91 +103,82 @@ function Board({ xIsNext, squares, onPlay, playerNames, playWithBot, darkMode })
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} darkMode={darkMode}/>
       </div>
     </>
-  );
+  )
 }
 
+export default function Game () {
+  const [history, setHistory] = useState([Array(9).fill(null)])
+  const [currentMove, setCurrentMove] = useState(0)
+  const [playerNames, setPlayerNames] = useState({ player1: 'You', player2: 'Bot' })
+  const [playWithBot, setPlayWithBot] = useState(true)
 
-export default function Game() {
-  const [history, setHistory] = useState([Array(9).fill(null)]);
-  const [currentMove, setCurrentMove] = useState(0);
-  const [playerNames, setPlayerNames] = useState({ player1: "You", player2: "Bot" });
-  const [playWithBot, setPlayWithBot] = useState(true);
+  const xIsNext = currentMove % 2 === 0
+  const currentSquares = history[currentMove]
+  const [timeTravel, setTimeTravel] = useState(false)
 
-  const xIsNext = currentMove % 2 === 0;
-  const currentSquares = history[currentMove];
-  const [timeTravel, setTimeTravel] = useState(false);
+  const winner = calculateWinner(currentSquares)
+  const gameOver = (winner != null) || moveLeft(currentSquares).length === 0
+  const botToMove = (playWithBot && !xIsNext) && !gameOver && !timeTravel
+  const playerToMove = (!playWithBot || xIsNext) && !gameOver
 
-  const winner = calculateWinner(currentSquares);
-  const gameOver = (winner != null) || moveLeft(currentSquares).length === 0;
-  const botToMove = (playWithBot && !xIsNext) && !gameOver && !timeTravel;
-  const playerToMove = (!playWithBot || xIsNext) && !gameOver;
-
-
-  const [isDarkMode, setIsDarkMode] = useState(() => false);
+  const [isDarkMode, setIsDarkMode] = useState(() => false)
 
   useEffect(() => {
-    if(isDarkMode){
-      document.body.classList.add('dark');
-    }
-    else{
-      document.body.classList.remove('dark');
+    if (isDarkMode) {
+      document.body.classList.add('dark')
+    } else {
+      document.body.classList.remove('dark')
     }
   })
- 
-  function playerMove(nextSquares) {
-    if (!playerToMove)
-      return;
 
-    setTimeTravel(false);
-    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
-    setHistory(nextHistory);
-    setCurrentMove(nextHistory.length - 1);
+  function playerMove (nextSquares) {
+    if (!playerToMove) { return }
+
+    setTimeTravel(false)
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
+    setHistory(nextHistory)
+    setCurrentMove(nextHistory.length - 1)
   }
 
   useEffect(() => {
+    function botMove () {
+      const nextSquares = currentSquares.slice()
+      const nextMove = evaluate(nextSquares)
+      nextSquares[nextMove] = 'O'
 
-    function botMove() {
-      const nextSquares = currentSquares.slice();
-      const nextMove = evaluate(nextSquares);
-      nextSquares[nextMove] = "O";
-
-      const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
-      setHistory(nextHistory);
-      setCurrentMove(nextHistory.length - 1);
+      const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
+      setHistory(nextHistory)
+      setCurrentMove(nextHistory.length - 1)
     }
 
-    if (botToMove)
-      setTimeout(botMove, 500);
+    if (botToMove) { setTimeout(botMove, 500) }
+  }, [botToMove, currentSquares, history, currentMove])
 
-  }, [botToMove, currentSquares, history, currentMove]);
-
-
-  function jumpTo(nextMove) {
-    setCurrentMove(nextMove);
-    setTimeTravel(true);
+  function jumpTo (nextMove) {
+    setCurrentMove(nextMove)
+    setTimeTravel(true)
   }
 
   const moves = history.map((squares, move) => (
     <option key={move} value={move}>
       {move === 0 ? 'Go to game start' : `Go to move #${move}`}
     </option>
-  ));
+  ))
 
+  const status = gameStatus(currentSquares, xIsNext)
 
-  const status = gameStatus(currentSquares, xIsNext);
+  const classNames = [['bwd_button', 'fwd_button', 'move_dropdown', 'playerName_input'],
+    ['bwd_buttondark', 'fwd_buttondark', 'move_dropdowndark', 'playerName_inputdark']]
+  const classNamesMode = checkDarkMode(isDarkMode)
 
-  const classNames = [["bwd_button","fwd_button","move_dropdown","playerName_input"],
-                      ["bwd_buttondark","fwd_buttondark","move_dropdowndark","playerName_inputdark"]];
-  const classNamesMode = checkDarkMode(isDarkMode);
-
-  function checkDarkMode(isDarkMode){
-    if(isDarkMode){
-      return 1;
+  function checkDarkMode (isDarkMode) {
+    if (isDarkMode) {
+      return 1
     }
-    return 0;
+    return 0
   }
 
-return (
+  return (
     <div className="game">
       <>
         <div className="game-board">
@@ -198,7 +186,6 @@ return (
         </div>
 
         <div className="game-info">
-          
 
           {/* Navigation buttons */}
           <div>
@@ -213,7 +200,7 @@ return (
               Forward
             </button>
           </div>
-          
+
           {/* Drop-down list of move-history */}
           <div>
             <label htmlFor="moveSelector">Select move: </label>
@@ -227,7 +214,7 @@ return (
             <Checkbox
               label="Play against bot"
               value={playWithBot}
-              onChange={() => {setPlayWithBot(p => !p); setPlayerNames({ player1: "You", player2: "Bot" })}}
+              onChange={() => { setPlayWithBot(p => !p); setPlayerNames({ player1: 'You', player2: 'Bot' }) }}
             />
             <Checkbox
               label="Enter playernames"
@@ -235,7 +222,7 @@ return (
               onChange={() => setPlayWithBot(p => !p)}
             />
           </div>
-          
+
         </div>
 
         {(!playWithBot) && (
@@ -248,7 +235,7 @@ return (
         <DarkModeToggle onChange = {setIsDarkMode} checked = {isDarkMode} size = {40}/>
       </div>
     </div>
-  );
+  )
 }
 const lines = [
   [0, 1, 2],
@@ -259,84 +246,77 @@ const lines = [
   [2, 5, 8],
   [0, 4, 8],
   [2, 4, 6]
-];
+]
 
-function calculateWinner(squares) {
+function calculateWinner (squares) {
   const winningLines = matchingLines(squares, line => {
-    return line[0] && line[1] === line[0] && line[2] === line[0];
-  });
+    return line[0] && line[1] === line[0] && line[2] === line[0]
+  })
 
-  if (winningLines.length > 0)
-    return squares[winningLines[0][0]];
-  return null;
+  if (winningLines.length > 0) { return squares[winningLines[0][0]] }
+  return null
 }
 
-function gameStatus(squares, xIsNext) {
-  const winner = calculateWinner(squares);
-  let status;
+function gameStatus (squares, xIsNext) {
+  const winner = calculateWinner(squares)
+  let status
   if (winner) {
-    status = "Winner: " + winner;
+    status = 'Winner: ' + winner
   } else {
-    status = "Next player: " + (xIsNext ? "X" : "O");
+    status = 'Next player: ' + (xIsNext ? 'X' : 'O')
   }
-  return status;
+  return status
 }
 
-function moveLeft(squares) {
+function moveLeft (squares) {
   return squares.map((currElement, index) => {
-    if (currElement === "X" || currElement === "O") {
-      return null;
+    if (currElement === 'X' || currElement === 'O') {
+      return null
     }
-    return index;
-  }).filter((item) => item !== null);
+    return index
+  }).filter((item) => item !== null)
 }
 
-function matchingLines(squares, checker) {
-  return lines.filter(line => checker(line.map(i => squares[i])));
+function matchingLines (squares, checker) {
+  return lines.filter(line => checker(line.map(i => squares[i])))
 }
 
-function canFork(player, squares) {
-  const movesLeft = moveLeft(squares);
+function canFork (player, squares) {
+  const movesLeft = moveLeft(squares)
   for (let j = 0; j < movesLeft.length; j++) {
-    const i = movesLeft[j];
-    const newSquares = squares.slice();
-    newSquares[i] = player;
-    const winableLines = matchingLines(newSquares, line => line.join('') === (player + player));
-    if (winableLines.length > 1)
-      return true;
+    const i = movesLeft[j]
+    const newSquares = squares.slice()
+    newSquares[i] = player
+    const winableLines = matchingLines(newSquares, line => line.join('') === (player + player))
+    if (winableLines.length > 1) { return true }
   };
-  return false;
+  return false
 }
 
-function evaluate(squares) {
+function evaluate (squares) {
   // 1. win game in one move, if possible
-  const winableLines = matchingLines(squares, line => line.join('') === 'OO');
+  const winableLines = matchingLines(squares, line => line.join('') === 'OO')
   if (winableLines.length > 0) {
-    const winningSquare = winableLines[0].filter(i => !squares[i])[0];
-    return winningSquare;
+    const winningSquare = winableLines[0].filter(i => !squares[i])[0]
+    return winningSquare
   }
   // 2. block opponent from winning this move
-  const blockableLines = matchingLines(squares, line => line.join('') === 'XX');
-  if (blockableLines.length > 0)
-    return blockableLines[0].filter(i => !squares[i])[0];
+  const blockableLines = matchingLines(squares, line => line.join('') === 'XX')
+  if (blockableLines.length > 0) { return blockableLines[0].filter(i => !squares[i])[0] }
 
-  const movesToCheck = moveLeft(squares);
+  const movesToCheck = moveLeft(squares)
 
   // 3. middle square
   if (movesToCheck.includes(4)) {
-    return 4;
+    return 4
   }
 
   // 4. try to avoid fork
   const possibles = movesToCheck.filter(i => {
-    const newSquares = squares.slice();
-    newSquares[i] = 'O';
-    return !canFork('X', newSquares);
-  });
+    const newSquares = squares.slice()
+    newSquares[i] = 'O'
+    return !canFork('X', newSquares)
+  })
 
-  if (possibles.length > 0)
-    return possibles[Math.floor(Math.random() * possibles.length)];
-  else
-    return movesToCheck[Math.floor(Math.random() * movesToCheck.length)];
-
+  if (possibles.length > 0) { return possibles[Math.floor(Math.random() * possibles.length)] } else { return movesToCheck[Math.floor(Math.random() * movesToCheck.length)] }
 }
