@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DarkModeToggle from 'react-dark-mode-toggle'
 
 function Square ({ value, onSquareClick, darkMode }) {
