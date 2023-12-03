@@ -19,12 +19,13 @@ jobs:
 
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: install nodes
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: latest
         cache: 'npm'
+        cache-dependency-path: tictactoe/package-lock.json
     - run: npm ci
     - run: npm run lint
     - run: npm run build --if-present
