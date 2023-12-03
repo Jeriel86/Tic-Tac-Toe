@@ -11,7 +11,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./tictactoe
+    working-directory: tictactoe
 jobs:
   build:
 
