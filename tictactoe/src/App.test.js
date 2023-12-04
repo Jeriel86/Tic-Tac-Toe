@@ -1,44 +1,36 @@
-/* import React from '@testing-library/react'
-import { shallow } from 'enzyme'
-import App from './App'
+/* eslint-disable no-undef */
+import { evaluate, canFork } from './App.js'
 
-describe('PlayerInput', () => {
-  it('should render a label with the provided label text', () => {
-    const wrapper = shallow(<App />)
-    const label = wrapper.find('PlayerInput').find('label')
-    expect(label.text()).toBe('Player 1:')
+describe('evaluate function', () => {
+  it('bot should place O to the fourth position', () => {
+    const squares = Array(9).fill(null)
+    const result = evaluate(squares)
+
+    expect(result).toBeGreaterThanOrEqual(0)
+    expect(result).toBeLessThanOrEqual(8)
+    expect(result).toBe(4)
   })
-
-  it('should render an input field with the provided value', () => {
-    const wrapper = shallow(<App />)
-    const input = wrapper.find('PlayerInput').find('input')
-    expect(input.prop('value')).toBe('X')
+  it('bot should try to win the game', () => {
+    const squares = ['O', 'O', null, null, 'X', null, 'X', null, 'X']
+    const result = evaluate(squares)
+    expect(result).toBe(2)
   })
-
-  it('should call the provided onChange handler when the input value changes', () => {
-    const wrapper = shallow(<App />)
-    const onChangeMock = jest.fn()
-    wrapper.find('PlayerInput').find('input').simulate('change', { target: { value: 'Y' } })
-    expect(onChangeMock).toHaveBeenCalledWith('Y')
-  })
-})
-
-describe('Checkbox', () => {
-  it('should render a checkbox with the provided label text', () => {
-    const wrapper = shallow(<App />)
-    const checkbox = wrapper.find('Checkbox').find('input')
-    const label = wrapper.find('Checkbox').find('label')
-    expect(label.text()).toBe('Play against bot')
-    expect(checkbox.prop('checked')).toBe(true)
-  })
-
-  it('should call the provided onChange handler when the checkbox is checked or unchecked', () => {
-    const wrapper = shallow(<App />)
-    const onChangeMock = jest.fn()
-    wrapper.find('Checkbox').find('input').simulate('change', { target: { checked: false } })
-    expect(onChangeMock).toHaveBeenCalledWith(false)
-    wrapper.find('Checkbox').find('input').simulate('change', { target: { checked: true } })
-    expect(onChangeMock).toHaveBeenCalledWith(true)
+  it('bot should block opponent from winning the game', () => {
+    const squares = ['X', 'X', null, null, 'O', null, null, null, null]
+    const result = evaluate(squares)
+    expect(result).toBe(2)
   })
 })
- */
+
+describe('fork function', () => {
+  it('opponent should not be able to fork here', () => {
+    const squares = Array(9).fill(null)
+    const result = canFork('X', squares)
+    expect(result).toBe(false)
+  })
+  it('opponent should be able to fork here', () => {
+    const squares = ['X', null, null, null, 'O', null, null, null, 'X']
+    const result = canFork('X', squares)
+    expect(result).toBe(true)
+  })
+})

@@ -281,7 +281,7 @@ function matchingLines (squares, checker) {
   return lines.filter(line => checker(line.map(i => squares[i])))
 }
 
-function canFork (player, squares) {
+export function canFork (player, squares) {
   const movesLeft = moveLeft(squares)
   for (let j = 0; j < movesLeft.length; j++) {
     const i = movesLeft[j]
@@ -293,7 +293,7 @@ function canFork (player, squares) {
   return false
 }
 
-function evaluate (squares) {
+export function evaluate (squares) {
   // 1. win game in one move, if possible
   const winableLines = matchingLines(squares, line => line.join('') === 'OO')
   if (winableLines.length > 0) {
