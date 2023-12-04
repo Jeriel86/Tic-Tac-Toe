@@ -248,7 +248,7 @@ const lines = [
   [2, 4, 6]
 ]
 
-function calculateWinner (squares) {
+export function calculateWinner (squares) {
   const winningLines = matchingLines(squares, line => {
     return line[0] && line[1] === line[0] && line[2] === line[0]
   })
@@ -257,7 +257,7 @@ function calculateWinner (squares) {
   return null
 }
 
-function gameStatus (squares, xIsNext) {
+export function gameStatus (squares, xIsNext) {
   const winner = calculateWinner(squares)
   let status
   if (winner) {

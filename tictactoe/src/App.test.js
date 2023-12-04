@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { evaluate, canFork } from './App.js'
+import { evaluate, canFork, calculateWinner, gameStatus } from './App.js'
 
 describe('evaluate function', () => {
   it('bot should place O to the fourth position', () => {
@@ -32,5 +32,37 @@ describe('fork function', () => {
     const squares = ['X', null, null, null, 'O', null, null, null, 'X']
     const result = canFork('X', squares)
     expect(result).toBe(true)
+  })
+})
+
+describe('caculate function', () => {
+  it('should return X when the player X wins the game', () => {
+    const squares = ['X', 'X', 'X', 'O', 'X', 'O', 'O', 'X', 'O']
+    const result = calculateWinner(squares)
+
+    expect(result).toBe('X')
+  })
+  it('should return null when no one wins the game', () => {
+    const squares = ['X', 'O', 'X', 'O', 'X', 'O', 'O', 'X', 'O']
+    const result = calculateWinner(squares)
+
+    expect(result).toBe(null)
+  })
+})
+
+describe('game status function', () => {
+  it('should return Next Player: X', () => {
+    const squares = ['X', null, null, null, 'O', null, null, 'O', 'X']
+    const isNext = true
+    const result = gameStatus(squares, isNext)
+
+    expect(result).toBe('Next player: X')
+  })
+  it('should return Winner: O', () => {
+    const squares = ['X', 'O', 'X', null, 'O', null, null, 'O', 'X']
+    const isNext = true
+    const result = gameStatus(squares, isNext)
+
+    expect(result).toBe('Winner: O')
   })
 })
