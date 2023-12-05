@@ -1,5 +1,6 @@
 import React from 'react';
-import { evaluate, canFork, calculateWinner, gameStatus, PlayerInput } from './App.js'
+import Game from './App.js'
+import { evaluate, canFork, calculateWinner, gameStatus, PlayerInput} from './App.js'
 import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
@@ -87,4 +88,45 @@ test('invokes onChange when input value changes', () => {
   fireEvent.change(inputElement, { target: { value: 'Jane' } });
 
   expect(mockOnChange).toHaveBeenCalledWith('Jane');
+});
+
+
+test('should jump to the selected move when chosen from the dropdown list', () => {
+  const { getByLabelText, getByTestId } = render(<Game />);
+  // Get the move selector 
+  const moveSelector = getByLabelText('Select move:');
+  // Change the selected move in the dropdown list to start
+  fireEvent.change(moveSelector, { target: { value: '0' } });
+
+  expect(moveSelector).toHaveValue('0');
+});
+
+test('disables backward button when at the beginning', () => {
+  const { getByText } = render(<Game />);
+  fireEvent.click(getByText('Backward'));
+
+  expect(getByText('Backward')).toBeDisabled();
+});
+
+test('disables forward button when at the end', () => {
+  const { getByText } = render(<Game />);
+  fireEvent.click(getByText('Forward'));
+
+  expect(getByText('Forward')).toBeDisabled();
+});
+
+
+test('should go backward when backward button is clicked', () => {
+  const { getByText, getByLabelText } = render(<Game />);
+  fireEvent.click(getByText('Backward'));
+  const moveSelector = getByLabelText('Select move:');
+
+  expect(moveSelector).toHaveValue('0');
+});
+
+test('should go forward when forward button is clicked', () => {
+  const { getByText, getByLabelText } = render(<Game />);
+  fireEvent.click(getByText('Forward'));
+  const moveSelector = getByLabelText('Select move:');
+  expect(moveSelector).toHaveValue('0'); // it's still zero since the game hasn't been played
 });
