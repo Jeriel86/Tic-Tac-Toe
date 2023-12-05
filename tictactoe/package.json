@@ -33,6 +33,13 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "lottie-web": "<rootDir>/__mocks__/lottie-web.js",
+      "react-dark-mode-toggle": "<rootDir>/__mocks__/react-dark-mode-toggle.js"
+    }
+  },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.23.3",
     "@babel/preset-env": "^7.23.5",
@@ -46,6 +53,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
     "jest": "^27.5.1",
+    "jsdom": "^23.0.1",
     "react-test-renderer": "^18.2.0"
   }
 }

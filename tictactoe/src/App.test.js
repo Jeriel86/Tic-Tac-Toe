@@ -1,5 +1,9 @@
-/* eslint-disable no-undef */
-import { evaluate, canFork, calculateWinner, gameStatus } from './App.js'
+import React from 'react';
+import { evaluate, canFork, calculateWinner, gameStatus, PlayerInput } from './App.js'
+import { render, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
+
+
 
 describe('evaluate function', () => {
   it('bot should place O to the fourth position', () => {
@@ -66,3 +70,21 @@ describe('game status function', () => {
     expect(result).toBe('Winner: O')
   })
 })
+
+test('renders PlayerInput component', () => {
+  const { getByLabelText } = render(<PlayerInput label="Player 1" value="John" onChange={() => { }} classNames="input-class" />);
+  const inputElement = getByLabelText('Player 1:');
+  expect(inputElement).toBeInTheDocument();
+  expect(inputElement).toHaveValue('John');
+  expect(inputElement).toHaveClass('input-class');
+});
+
+test('invokes onChange when input value changes', () => {
+  const mockOnChange = jest.fn();
+  const { getByLabelText } = render(<PlayerInput label="Player 1" value="John" onChange={mockOnChange} classNames="input-class" />);
+  const inputElement = getByLabelText('Player 1:');
+
+  fireEvent.change(inputElement, { target: { value: 'Jane' } });
+
+  expect(mockOnChange).toHaveBeenCalledWith('Jane');
+});

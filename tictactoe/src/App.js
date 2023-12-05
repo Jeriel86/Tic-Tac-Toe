@@ -18,7 +18,7 @@ const Checkbox = ({ label, value, onChange }) => {
   )
 }
 
-function PlayerInput ({ label, value, onChange, classNames }) {
+export function PlayerInput ({ label, value, onChange, classNames }) {
   return (
     <label>
       {label}:
@@ -33,7 +33,7 @@ function PlayerInput ({ label, value, onChange, classNames }) {
   )
 }
 
-function Form ({ playerNames, setPlayerNames, classNames }) {
+export function Form ({ playerNames, setPlayerNames, classNames }) {
   return (
     <div className="player-names-container">
       <div className="player-names-form">
