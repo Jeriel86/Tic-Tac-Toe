@@ -143,7 +143,6 @@ export default function Game () {
   useEffect(() => {
     function botMove () {
       const nextSquares = currentSquares.slice()
-      console.log(nextSquares)
       const nextMove = evaluate(nextSquares)
       nextSquares[nextMove] = 'O'
 
