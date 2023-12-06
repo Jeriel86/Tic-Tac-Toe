@@ -1,5 +1,5 @@
 import React from 'react';
-import Game from './App.js'
+import Game, { Square } from './App.js'
 import { evaluate, canFork, calculateWinner, gameStatus, PlayerInput} from './App.js'
 import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
@@ -69,6 +69,41 @@ describe('game status function', () => {
     const result = gameStatus(squares, isNext)
 
     expect(result).toBe('Winner: O')
+  })
+})
+
+describe('chooses right square className', () =>{
+  it('should return squareXdark', () => {
+    const onSquareClick = jest.fn();
+    const darkMode = true;
+    const { getByText } = render(<Square value="X" onSquareClick={onSquareClick} darkMode={darkMode} />);
+    const result = getByText('X');
+  
+    expect(result).toHaveClass('squareXdark');
+  })
+  it('should return SquareO', () => {
+    const onSquareClick = jest.fn();
+    const darkMode = false;
+    const { getByText } = render(<Square value="O" onSquareClick={onSquareClick} darkMode={darkMode} />);
+    const result = getByText('O');
+  
+    expect(result).toHaveClass('squareO');
+  })
+})
+
+describe('chooses right classNames', () =>{
+  it('should return className with dark', () => {
+    const { getByText }  = render(<Game />);
+    const className = getByText('Forward');
+    fireEvent.change(className, {target: { className: 'fwd_buttondark' }});
+
+    expect(className).toHaveClass('fwd_buttondark');
+  })
+  it('should return className without dark', () => {
+    const { getByText }  = render(<Game />);
+    const className = getByText('Forward');
+  
+    expect(className).toHaveClass('fwd_button');
   })
 })
 

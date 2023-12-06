@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DarkModeToggle from 'react-dark-mode-toggle'
 
-function Square ({ value, onSquareClick, darkMode }) {
+export function Square ({ value, onSquareClick, darkMode }) {
   if (darkMode) {
     return <button className={value === 'X' ? 'squareXdark' : 'squareOdark'} onClick={onSquareClick}>{value}</button>
   } else {
